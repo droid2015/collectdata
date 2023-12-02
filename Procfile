@@ -1,1 +1,1 @@
-web: gunicorn collectgold:app
+web: gunicorn app:app
