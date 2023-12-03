@@ -20,12 +20,14 @@ def hello():
     return 'Hello, World!'
 @app.route('/gold_table')
 def gold_table():
-     # Lấy dữ liệu từ cơ sở dữ liệu thay vì biến global
-     # Lấy dữ liệu từ cơ sở dữ liệu, sắp xếp theo update_time giảm dần và lấy bản ghi đầu tiên
-    latest_entry = GoldEntry.query.order_by(desc(GoldEntry.update_time)).first()
+    # Lấy ngày lớn nhất từ cơ sở dữ liệu
+    max_update_time = db.session.query(db.func.max(GoldEntry.update_time)).scalar()
+    # Kiểm tra xem có ngày lớn nhất hay không
+    if max_update_time:
+        # Lấy tất cả bản ghi có ngày cập nhật bằng ngày lớn nhất
+        latest_entries = GoldEntry.query.filter_by(update_time=max_update_time).all()
+        return render_template('gold_table.html', gold_entries=latest_entries)
 # Kiểm tra xem có bản ghi nào hay không
-    if latest_entry:
-        return render_template('gold_table.html', gold_entries=[latest_entry])
     else:
         return render_template('gold_table.html', gold_entries=[])
 # Định nghĩa mô hình cho bảng giá vàng
