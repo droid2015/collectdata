@@ -1,0 +1,2 @@
+- Cau hình bien moi truong
++ Trong setting của heroku thêm DATABASE_URL,  nút "Reveal Config Vars"
