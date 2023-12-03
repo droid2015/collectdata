@@ -45,15 +45,16 @@ def update_gold_data():
     previous_update_time = None
     while True:
         update_time, new_gold_entries = get_gold_price(previous_update_time)
-
+        #luu thoi gian
+        previous_update_time = update_time
         if update_time and new_gold_entries:
-            previous_update_time = update_time
-            # Cập nhật dữ liệu giá vàng
-            gold_entries = new_gold_entries
-
-            # Lưu dữ liệu vào cơ sở dữ liệu
-            save_to_database(new_gold_entries)
-
+            # Chỉ cập nhật và lưu vào cơ sở dữ liệu nếu update_time lớn hơn previous_update_time
+            if previous_update_time is None or update_time > previous_update_time:
+                
+                # Cập nhật dữ liệu giá vàng
+                gold_entries = new_gold_entries
+                # Lưu dữ liệu vào cơ sở dữ liệu
+                save_to_database(new_gold_entries)
         # Chờ 1-2 phút trước khi lấy dữ liệu tiếp theo
         time.sleep(120)
 def save_to_database(entries):

@@ -20,7 +20,6 @@ def get_gold_price(previous_update_time=None):
             rows = gold_table.select("tbody tr")
             if rows:
                 # In thông tin giá vàng
-                gold_data = []
                 for number, row in enumerate(rows, start=1):
                     name = row.select_one(".w-64 span").text.strip()
                     buy_price = row.select(".text-right")[0].select_one(".tabular-nums").text.strip().replace(".", "")
@@ -43,4 +42,6 @@ def get_gold_price(previous_update_time=None):
                     gold_entries.append(entry)
 
                 return update_time, gold_entries
+        # kg co data moi    
+        return  update_time, None   
     return None, None

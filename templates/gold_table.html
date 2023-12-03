@@ -23,7 +23,7 @@
         <tbody>
             {% for entry in gold_entries %}
                 <tr>
-                    <td>{{ entry['number'] }}</td>
+                    <td>{{ loop.index }}</td>
                     <td>{{ entry['name'] }}</td>
                     <td>{{ entry['buy_price'] }}</td>
                     <td>{{ entry['buy_price_change'] }}</td>
