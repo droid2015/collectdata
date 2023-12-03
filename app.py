@@ -11,6 +11,7 @@ app = Flask(__name__)
 # Thiết lập cấu hình cơ sở dữ liệu từ biến môi trường DATABASE_URL của Heroku
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#sua loi bang string postgresql
 db = SQLAlchemy(app)
 # Khởi tạo biến global để lưu trữ dữ liệu giá vàng
 gold_entries = []
@@ -50,38 +51,30 @@ def update_gold_data():
         time.sleep(120)
 def save_to_database(entries):
     # Xóa dữ liệu cũ trong bảng
-    GoldEntry.query.delete()
-
+    #GoldEntry.query.delete()
+    with app.app_context():
     # Thêm dữ liệu mới vào cơ sở dữ liệu
-    for entry in entries:
-        db.session.add(GoldEntry(
-            name=entry['name'],
-            buy_price=entry['buy_price'],
-            buy_price_change=entry['buy_price_change'],
-            sell_price=entry['sell_price'],
-            sell_price_change=entry['sell_price_change'],
-            update_time=entry['update_time']
-        ))
+        for entry in entries:
+            db.session.add(GoldEntry(
+                name=entry['name'],
+                buy_price=entry['buy_price'],
+                buy_price_change=entry['buy_price_change'],
+                sell_price=entry['sell_price'],
+                sell_price_change=entry['sell_price_change'],
+                update_time=entry['update_time']
+            ))
 
-    # Commit để lưu thay đổi vào cơ sở dữ liệu
-    db.session.commit()
+        # Commit để lưu thay đổi vào cơ sở dữ liệu
+        db.session.commit()
 # Đặt tiến trình cập nhật dữ liệu giá vàng thành một luồng
 update_thread = Thread(target=update_gold_data)
 # Đặt tiến trình ở chế độ daemon để nó sẽ kết thúc khi chương trình chính kết thúc
 update_thread.daemon = True
 update_thread.start()
 # Tạo bảng trong cơ sở dữ liệu (chỉ cần làm một lần khi triển khai ứng dụng lần đầu)
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 if __name__ == '__main__':
     app.run()
-    previous_update_time = None
-    while True:
-        update_time, gold_entries = get_gold_price(previous_update_time)
 
-        if update_time and gold_entries:
-            previous_update_time = update_time
-
-        # Chờ 1-2 phút trước khi lấy dữ liệu tiếp theo
-        time.sleep(120)
 

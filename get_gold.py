@@ -32,7 +32,7 @@ def get_gold_price(previous_update_time=None):
                     if sell_price_change:
                         sell_price_change = sell_price_change.text.strip()
                     entry = {
-                        'dateupdate':update_time,
+                        'update_time':update_time,
                         'number': number,
                         'name': name,
                         'buy_price': buy_price,
