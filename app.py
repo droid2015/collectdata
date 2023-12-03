@@ -41,21 +41,19 @@ class GoldEntry(db.Model):
     update_time = db.Column(db.String(20))
 
 def update_gold_data():
-    global gold_entries
     previous_update_time = None
     while True:
         update_time, new_gold_entries = get_gold_price(previous_update_time)
         #luu thoi gian
-        previous_update_time = update_time
+        
         if update_time and new_gold_entries:
             # Chỉ cập nhật và lưu vào cơ sở dữ liệu nếu update_time lớn hơn previous_update_time
             if previous_update_time is None or update_time > previous_update_time:
-                
-                # Cập nhật dữ liệu giá vàng
-                gold_entries = new_gold_entries
+                previous_update_time = update_time
                 # Lưu dữ liệu vào cơ sở dữ liệu
                 save_to_database(new_gold_entries)
         # Chờ 1-2 phút trước khi lấy dữ liệu tiếp theo
+        previous_update_time = update_time
         time.sleep(120)
 def save_to_database(entries):
     # Xóa dữ liệu cũ trong bảng
