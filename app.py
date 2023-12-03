@@ -4,7 +4,7 @@ from threading import Thread
 import time
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-
+from sqlalchemy import desc
 from get_gold import get_gold_price
 
 app = Flask(__name__)
@@ -21,8 +21,13 @@ def hello():
 @app.route('/gold_table')
 def gold_table():
      # Lấy dữ liệu từ cơ sở dữ liệu thay vì biến global
-    entries_from_db = GoldEntry.query.all()
-    return render_template('gold_table.html', gold_entries=entries_from_db)
+     # Lấy dữ liệu từ cơ sở dữ liệu, sắp xếp theo update_time giảm dần và lấy bản ghi đầu tiên
+    latest_entry = GoldEntry.query.order_by(desc(GoldEntry.update_time)).first()
+# Kiểm tra xem có bản ghi nào hay không
+    if latest_entry:
+        return render_template('gold_table.html', gold_entries=[latest_entry])
+    else:
+        return render_template('gold_table.html', gold_entries=[])
 # Định nghĩa mô hình cho bảng giá vàng
 class GoldEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
