@@ -34,5 +34,13 @@ update_thread.daemon = True
 update_thread.start()
 if __name__ == '__main__':
     app.run()
+    previous_update_time = None
+    while True:
+        update_time, gold_entries = get_gold_price(previous_update_time)
 
+        if update_time and gold_entries:
+            previous_update_time = update_time
+
+        # Chờ 1-2 phút trước khi lấy dữ liệu tiếp theo
+        time.sleep(120)
 
