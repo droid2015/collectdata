@@ -1,0 +1,37 @@
+<!-- templates/gold_table.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Price Table</title>
+</head>
+<body>
+    <h1>Gold Price Table ngày cập nhật {{gold_entries[0]['dateupdate']}}</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Buy Price</th>
+                <th>Buy Price Change</th>
+                <th>Sell Price</th>
+                <th>Sell Price Change</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in gold_entries %}
+                <tr>
+                    <td>{{ entry['number'] }}</td>
+                    <td>{{ entry['name'] }}</td>
+                    <td>{{ entry['buy_price'] }}</td>
+                    <td>{{ entry['buy_price_change'] }}</td>
+                    <td>{{ entry['sell_price'] }}</td>
+                    <td>{{ entry['sell_price_change'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
