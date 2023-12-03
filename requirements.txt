@@ -5,3 +5,5 @@ requests
 beautifulsoup4
 Flask-SQLAlchemy
 psycopg2-binary
+psycopg2
+sqlalchemy
