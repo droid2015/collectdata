@@ -1,7 +1,7 @@
-Flask==2.2.2
-Werkzeug==2.2.2
-gunicorn==21.2.0
-requests==2.31.0 
-beautifulsoup4==4.12.2
-Flask-SQLAlchemy==3.1.1
-psycopg2-binary==2.9.9
+Flask
+Werkzeug
+gunicorn
+requests 
+beautifulsoup4
+Flask-SQLAlchemy
+psycopg2-binary
