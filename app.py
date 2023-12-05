@@ -1,4 +1,5 @@
 # Tạo một tệp tin có tên là app.py
+import datetime
 import os
 from threading import Thread
 import time
@@ -34,11 +35,11 @@ def gold_table():
 class GoldEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
-    buy_price = db.Column(db.String(20))
-    buy_price_change = db.Column(db.String(20))
-    sell_price = db.Column(db.String(20))
-    sell_price_change = db.Column(db.String(20))
-    update_time = db.Column(db.String(20))
+    buy_price = db.Column(db.Float)  # Kiểu số
+    buy_price_change = db.Column(db.Float)  # Kiểu số
+    sell_price = db.Column(db.Float)  # Kiểu số
+    sell_price_change = db.Column(db.Float)  # Kiểu số
+    update_time = db.Column(db.DateTime, default=datetime.utcnow)  # Kiểu ngày giờ
 
 def update_gold_data():
     previous_update_time = None
@@ -52,8 +53,7 @@ def update_gold_data():
                 previous_update_time = update_time
                 # Lưu dữ liệu vào cơ sở dữ liệu
                 save_to_database(new_gold_entries)
-        # Chờ 1-2 phút trước khi lấy dữ liệu tiếp theo
-        previous_update_time = update_time
+        # Chờ 1-2 phút trước khi lấy dữ liệu tiếp theo        
         time.sleep(120)
 def save_to_database(entries):
     # Xóa dữ liệu cũ trong bảng
