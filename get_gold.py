@@ -34,10 +34,10 @@ def get_gold_price(previous_update_time=None):
                         'update_time':update_time,
                         'number': number,
                         'name': name,
-                        'buy_price': buy_price,
-                        'buy_price_change': buy_price_change,
-                        'sell_price': sell_price,
-                        'sell_price_change': sell_price_change
+                        'buy_price': float(buy_price)/1000,
+                        'buy_price_change': float(buy_price_change)/1000 if buy_price_change is not None else None,
+                        'sell_price': float(sell_price)/1000,
+                        'sell_price_change': float(sell_price_change)/1000 if sell_price_change is not None else None
                     }
                     gold_entries.append(entry)
 
