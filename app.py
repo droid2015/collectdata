@@ -1,5 +1,5 @@
 # Tạo một tệp tin có tên là app.py
-import datetime
+from datetime import datetime as dt
 import os
 from threading import Thread
 import time
@@ -39,7 +39,7 @@ class GoldEntry(db.Model):
     buy_price_change = db.Column(db.Float)  # Kiểu số
     sell_price = db.Column(db.Float)  # Kiểu số
     sell_price_change = db.Column(db.Float)  # Kiểu số
-    update_time = db.Column(db.DateTime, default=datetime.utcnow)  # Kiểu ngày giờ
+    update_time = db.Column(db.DateTime, default=dt.utcnow)  # Kiểu ngày giờ
 
 def update_gold_data():
     previous_update_time = None
@@ -78,8 +78,8 @@ update_thread = Thread(target=update_gold_data)
 update_thread.daemon = True
 update_thread.start()
 # Tạo bảng trong cơ sở dữ liệu (chỉ cần làm một lần khi triển khai ứng dụng lần đầu)
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+     db.create_all()
 if __name__ == '__main__':
     app.run()
 
